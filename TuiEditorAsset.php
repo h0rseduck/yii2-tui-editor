@@ -14,20 +14,20 @@ class TuiEditorAsset extends AssetBundle
     /**
      * @var string
      */
-    public $sourcePath = '@bower/tui-editor';
+    public $sourcePath = '@bower/tui-editor-dist/dist';
 
     /**
      * @var array
      */
     public $css = [
-        'dist/tui-editor.min.css',
+        'tui-editor.min.css',
     ];
 
     /**
      * @var array
      */
     public $js = [
-        'dist/tui-editor.min.js',
+        'tui-editor-Editor-full.min.js',
     ];
 
     /**

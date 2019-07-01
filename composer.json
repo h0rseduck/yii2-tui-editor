@@ -12,7 +12,7 @@
     ],
     "require": {
         "yiisoft/yii2": "~2.0.0",
-        "bower-asset/tui-editor": "~1.4.3"
+        "bower-asset/tui-editor-dist": "~1.4.1"
     },
     "autoload": {
         "psr-4": {
