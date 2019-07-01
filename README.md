@@ -28,5 +28,21 @@ Usage
 Once the extension is installed, simply use it in your code by  :
 
 ```php
-<?= \h0rseduck\tuieditor\TuiEditor::widget(); ?>
+<?= \h0rseduck\tuieditor\TuiEditor::widget([
+    'editorOptions' => [
+        'initialEditType' => 'markdown',
+        'previewStyle' => 'vertical',
+        'height' => '500px'
+    ]
+]); ?>
+```
+
+```php
+<?= $form->field($model, 'content')->widget(\h0rseduck\tuieditor\TuiEditor::class, [
+    'editorOptions' => [
+        'initialEditType' => 'markdown',
+        'previewStyle' => 'vertical',
+        'height' => '500px'
+    ]
+]); ?>
 ```
