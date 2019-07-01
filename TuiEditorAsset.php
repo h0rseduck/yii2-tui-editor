@@ -5,9 +5,9 @@ namespace h0rseduck\tuieditor;
 use yii\web\AssetBundle;
 
 /**
- * Class MarkdownEditorAsset
+ * Class TuiEditorAsset
  *
- * @package yii2mod\markdown
+ * @package h0rseduck\tuieditor
  */
 class TuiEditorAsset extends AssetBundle
 {
@@ -21,6 +21,7 @@ class TuiEditorAsset extends AssetBundle
      */
     public $css = [
         'tui-editor.min.css',
+        'tui-editor-contents.min.css'
     ];
 
     /**
@@ -35,5 +36,7 @@ class TuiEditorAsset extends AssetBundle
      */
     public $depends = [
         'yii\web\YiiAsset',
+        'h0rseduck\tuieditor\CodemirrorAsset',
+        'h0rseduck\tuieditor\HighlightAsset'
     ];
 }

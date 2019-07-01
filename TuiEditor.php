@@ -25,10 +25,15 @@ class TuiEditor extends InputWidget
     public function run()
     {
         if ($this->hasModel()) {
-            echo Html::activeTextarea($this->model, $this->attribute, $this->options);
+            $content = $this->model->{$this->attribute};
+//            echo Html::activeTextarea($this->model, $this->attribute, $this->options);
         } else {
-            echo Html::textarea($this->attribute, $this->value, $this->options);
+            $content = $this->value;
+//            echo Html::textarea($this->attribute, $this->value, $this->options);
         }
+        echo Html::tag('div', $content, [
+            'id' => "editor_{$this->id}"
+        ]);
         $this->registerAssets();
     }
 
@@ -50,7 +55,12 @@ class TuiEditor extends InputWidget
      */
     protected function getEditorOptions()
     {
-        $this->editorOptions['el'] = new JsExpression('document.getElementById("' . $this->options['id'] . '")');
+        $this->editorOptions['el'] = new JsExpression('document.getElementById("editor_' . $this->id . '")');
+        $this->editorOptions['initialEditType'] = 'markdown';
+        $this->editorOptions['previewStyle'] = 'vertical';
+        $this->editorOptions['height'] = '500px';
+        $this->editorOptions['viewer'] = true;
+
         return Json::encode($this->editorOptions);
     }
 }
