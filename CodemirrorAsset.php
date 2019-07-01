@@ -8,7 +8,7 @@ use yii\web\AssetBundle;
  * Class CodemirrorAsset
  * @package h0rseduck\tuieditor
  */
-class CodemirrorAsset  extends AssetBundle
+class CodemirrorAsset extends AssetBundle
 {
     /**
      * @var string

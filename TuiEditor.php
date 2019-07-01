@@ -2,6 +2,7 @@
 
 namespace h0rseduck\tuieditor;
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
 use yii\helpers\Json;
@@ -20,21 +21,37 @@ class TuiEditor extends InputWidget
     public $editorOptions = [];
 
     /**
+     * @var null|string
+     */
+    protected $varName = null;
+
+    /**
      * @return string|void
      */
     public function run()
     {
         if ($this->hasModel()) {
-            $content = $this->model->{$this->attribute};
-//            echo Html::activeTextarea($this->model, $this->attribute, $this->options);
+            echo Html::activeTextarea($this->model, $this->attribute,
+                ArrayHelper::merge($this->options, ['style' => 'display: none;']));
         } else {
-            $content = $this->value;
-//            echo Html::textarea($this->attribute, $this->value, $this->options);
+            echo Html::textarea($this->attribute, $this->value,
+                ArrayHelper::merge($this->options, ['style' => 'display: none;']));
         }
-        echo Html::tag('div', $content, [
+        echo Html::tag('div', null, [
             'id' => "editor_{$this->id}"
         ]);
         $this->registerAssets();
+    }
+
+    /**
+     * @return string|null
+     */
+    protected function getVarName()
+    {
+        if (is_null($this->varName)) {
+            $this->varName = Inflector::variablize('editor_' . $this->id);
+        }
+        return $this->varName;
     }
 
     /**
@@ -44,8 +61,7 @@ class TuiEditor extends InputWidget
     {
         $view = $this->getView();
         TuiEditorAsset::register($view);
-        $varName = Inflector::variablize('editor_' . $this->id);
-        $script = "var {$varName} = new tui.Editor(" . $this->getEditorOptions() . ');';
+        $script = "var {$this->getVarName()} = new tui.Editor(" . $this->getEditorOptions() . ');';
         $view->registerJs($script);
     }
 
@@ -56,10 +72,10 @@ class TuiEditor extends InputWidget
     protected function getEditorOptions()
     {
         $this->editorOptions['el'] = new JsExpression('document.getElementById("editor_' . $this->id . '")');
-        $this->editorOptions['initialEditType'] = 'markdown';
-        $this->editorOptions['previewStyle'] = 'vertical';
-        $this->editorOptions['height'] = '500px';
-        $this->editorOptions['viewer'] = true;
+        $this->editorOptions['events']['change'] = new JsExpression('function() {$("#' . $this->options['id'] . '").val(' . $this->getVarName() . '.getValue())}');
+        $this->editorOptions['initialValue'] = $this->hasModel()
+            ? $this->model->{$this->attribute}
+            : $this->value;
 
         return Json::encode($this->editorOptions);
     }
